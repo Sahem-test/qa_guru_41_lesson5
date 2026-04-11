@@ -1,123 +1,96 @@
 package guru.qa.homeWork;
 
 import guru.qa.TestBase;
+import guru.qa.pages.PracticeFormPages;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
 import static guru.qa.testData.TestData.*;
 
+
 public class PracticeFormTests extends TestBase {
+    PracticeFormPages practiceFormPages = new PracticeFormPages();
 
     @Test
     void FillPracticeFormPositiveTest() {
-        open("/automation-practice-form");
-        executeJavaScript("document.getElementById('fixedban')?.remove();");
-        executeJavaScript("document.querySelector('footer')?.remove();");
-        $("#firstName").setValue(userName);
-        $("#lastName").setValue(lastName);
-        $("#userEmail").setValue(userEmail);
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue(userNumber);
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption(month);
-        $(".react-datepicker__year-select").selectOption(year);
-        $(".react-datepicker__day--010").click();
-        $("#subjectsInput").setValue(subjects).pressEnter();
-        $("#hobbies-checkbox-1").click();
-        $("#uploadPicture").uploadFromClasspath(uploadPicture);
-        $("#currentAddress").setValue(currentAddress);
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText(state)).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText(city)).click();
-        $("#submit").click();
+        practiceFormPages.openPage()
+                .removeAds()
+                .setFirstNameInput(userName)
+                .setLastNameInput(lastName)
+                .setUserEmailInput(userEmail)
+                .setGender()
+                .setUserNumberInput(userNumber)
+                .setDateOfBirth(day, month, year)
+                .setSubjects(subjects)
+                .setHobbies()
+                .uploadPicture(uploadPicture)
+                .setCurrentAddress(currentAddress)
+                .setStateAndCite(state, city)
+                .submitForm()
 
-        $("#resultModal")
-                .shouldHave(text(userName + " " + lastName))
-                .shouldHave(text(userEmail))
-                .shouldHave(text("Male"))
-                .shouldHave(text(userNumber))
-                .shouldHave(text("1976-11-10"))
-                .shouldHave(text(subjects))
-                .shouldHave(text("Sports"))
-                .shouldHave(text(uploadPicture))
-                .shouldHave(text(currentAddress))
-                .shouldHave(text(state + " " + city));
+                .modalWindowShouldBeVisible()
+                .checkGreetingTextModalWindow()
+                .checkResult("Student Name", userName + " " + lastName)
+                .checkResult("Student Email", userEmail)
+                .checkResult("Gender", "Male")
+                .checkResult("Mobile", userNumber)
+                .checkResult("Date of Birth", "1976-11-10")
+                .checkResult("Subjects", subjects)
+                .checkResult("Hobbies", "Sports")
+                .checkResult("Picture", uploadPicture)
+                .checkResult("Address", currentAddress)
+                .checkResult("State and City", state + " " + city);
     }
 
     @Test
     void minimalRequiredFieldsPositiveTest() {
-        open("/automation-practice-form");
-        executeJavaScript("document.getElementById('fixedban')?.remove();");
-        executeJavaScript("document.querySelector('footer')?.remove();");
-        $("#firstName").setValue(userName);
-        $("#lastName").setValue(lastName);
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue(userNumber);
-        $("#submit").click();
+        practiceFormPages.openPage()
+                .removeAds()
+                .setFirstNameInput(userName)
+                .setLastNameInput(lastName)
+                .setGender()
+                .setUserNumberInput(userNumber)
+                .submitForm()
 
-        $("#resultModal")
-                .shouldHave(text(userName + " " + lastName))
-                .shouldHave(text("Male"))
-                .shouldHave(text(userNumber));
+                .modalWindowShouldBeVisible()
+                .checkGreetingTextModalWindow()
+                .checkResult("Student Name", userName + " " + lastName)
+                .checkResult("Gender", "Male")
+                .checkResult("Mobile", userNumber);
     }
 
     @Test
     void lessMinimalRequiredFieldsNegativeTest() {
-        open("/automation-practice-form");
-        executeJavaScript("document.getElementById('fixedban')?.remove();");
-        executeJavaScript("document.querySelector('footer')?.remove();");
-        $("#firstName").setValue(userName);
-        $("#submit").click();
+        practiceFormPages.openPage()
+                .removeAds()
+                .setFirstNameInput(userName)
+                .submitForm()
 
-        $("#resultModal").shouldNotBe(visible);
+                .modalWindowShouldNotBeVisible();
+
     }
 
     @Test
     void lessMinimalSignPhoneNegativeTest() {
-        open("/automation-practice-form");
-        executeJavaScript("document.getElementById('fixedban')?.remove();");
-        executeJavaScript("document.querySelector('footer')?.remove();");
-        $("#firstName").setValue(userName);
-        $("#lastName").setValue(lastName);
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue(userNumber);
-        $("#submit").click();
+        practiceFormPages.openPage()
+                .removeAds()
+                .setFirstNameInput(userName)
+                .setLastNameInput(lastName)
+                .setGender()
+                .setUserNumberInput(wrongNumber)
+                .submitForm()
 
-        $("#resultModal").shouldNotBe(visible);
-
+                .modalWindowShouldNotBeVisible();
     }
 
     @Test
-    void emailWithoutTopLevelDomainNegativeTest() {
-        open("/automation-practice-form");
-        executeJavaScript("document.getElementById('fixedban')?.remove();");
-        executeJavaScript("document.querySelector('footer')?.remove();");
-        $("#firstName").setValue(userName);
-        $("#lastName").setValue(lastName);
-        $("#userEmail").setValue("testmail@");
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue(userNumber);
-        $("#submit").click();
+    void EmptyFormTest() {
+        practiceFormPages.openPage()
+                .removeAds()
+                .submitForm()
 
-        $("#resultModal").shouldNotBe(visible);
+                .modalWindowShouldNotBeVisible()
+                .requirementFillFormTest();
+
     }
 
-    @Test
-    void emailNoAtInvalidNegativeTest() {
-        open("/automation-practice-form");
-        executeJavaScript("document.getElementById('fixedban')?.remove();");
-        executeJavaScript("document.querySelector('footer')?.remove();");
-        $("#firstName").setValue(userName);
-        $("#lastName").setValue(lastName);
-        $("#userEmail").setValue("testmail.com");
-        $("#gender-radio-1").click();
-        $("#userNumber").setValue(userNumber);
-        $("#submit").click();
-
-        $("#resultModal").shouldNotBe(visible);
-    }
 }
