@@ -11,14 +11,14 @@ public class PracticeFormTests extends TestBase {
     PracticeFormPages practiceFormPages = new PracticeFormPages();
 
     @Test
-    void FillPracticeFormPositiveTest() {
+    void fillPracticeFormPositiveTest() {
         practiceFormPages.openPage()
                 .removeAds()
-                .setFirstNameInput(userName)
-                .setLastNameInput(lastName)
-                .setUserEmailInput(userEmail)
+                .setFirstName(userName)
+                .setLastName(lastName)
+                .setUserEmail(userEmail)
                 .setGender()
-                .setUserNumberInput(userNumber)
+                .setUserNumber(userNumber)
                 .setDateOfBirth(day, month, year)
                 .setSubjects(subjects)
                 .setHobbies()
@@ -45,10 +45,10 @@ public class PracticeFormTests extends TestBase {
     void minimalRequiredFieldsPositiveTest() {
         practiceFormPages.openPage()
                 .removeAds()
-                .setFirstNameInput(userName)
-                .setLastNameInput(lastName)
+                .setFirstName(userName)
+                .setLastName(lastName)
                 .setGender()
-                .setUserNumberInput(userNumber)
+                .setUserNumber(userNumber)
                 .submitForm()
 
                 .modalWindowShouldBeVisible()
@@ -62,7 +62,7 @@ public class PracticeFormTests extends TestBase {
     void lessMinimalRequiredFieldsNegativeTest() {
         practiceFormPages.openPage()
                 .removeAds()
-                .setFirstNameInput(userName)
+                .setFirstName(userName)
                 .submitForm()
 
                 .modalWindowShouldNotBeVisible();
@@ -73,10 +73,10 @@ public class PracticeFormTests extends TestBase {
     void lessMinimalSignPhoneNegativeTest() {
         practiceFormPages.openPage()
                 .removeAds()
-                .setFirstNameInput(userName)
-                .setLastNameInput(lastName)
+                .setFirstName(userName)
+                .setLastName(lastName)
                 .setGender()
-                .setUserNumberInput(wrongNumber)
+                .setUserNumber(wrongNumber)
                 .submitForm()
 
                 .modalWindowShouldNotBeVisible();

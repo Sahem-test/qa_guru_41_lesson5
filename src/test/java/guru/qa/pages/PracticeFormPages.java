@@ -16,23 +16,23 @@ public class PracticeFormPages {
     CalendarComponent calendarComponent = new CalendarComponent();
     CheckResultComponent checkResultComponent = new CheckResultComponent();
 
-    private SelenideElement firstNameInput = $("#firstName");
-    private SelenideElement lastNameInput = $("#lastName");
-    private SelenideElement userEmailInput = $("#userEmail");
-    private SelenideElement setGender = $("#gender-radio-1");
-    private SelenideElement userNumberInput = $("#userNumber");
-    private SelenideElement openCalendar = $("#dateOfBirthInput");
-    private SelenideElement subjectsInput = $("#subjectsInput");
-    private SelenideElement setUserHobbies = $("#hobbies-checkbox-1");
-    private SelenideElement uploadPicture = $("#uploadPicture");
-    private SelenideElement currentAddressInput = $("#currentAddress");
-    private SelenideElement stateSelect = $("#state");
-    private SelenideElement citySelect = $("#city");
-    private SelenideElement stateCityContainer = $("#stateCity-wrapper");
-    private SelenideElement button = $("#submit");
-    private SelenideElement modalWindow = $(".modal-dialog");
-    private SelenideElement modalWindowText = $("#example-modal-sizes-title-lg");
-    private SelenideElement formError = $("#formError");
+    private final SelenideElement firstNameInput = $("#firstName");
+    private final SelenideElement lastNameInput = $("#lastName");
+    private final SelenideElement userEmailInput = $("#userEmail");
+    private final SelenideElement setGender = $("#gender-radio-1");
+    private final SelenideElement userNumberInput = $("#userNumber");
+    private final SelenideElement openCalendar = $("#dateOfBirthInput");
+    private final SelenideElement subjectsInput = $("#subjectsInput");
+    private final SelenideElement setUserHobbies = $("#hobbies-checkbox-1");
+    private final SelenideElement uploadPicture = $("#uploadPicture");
+    private final SelenideElement currentAddressInput = $("#currentAddress");
+    private final SelenideElement stateSelect = $("#state");
+    private final SelenideElement citySelect = $("#city");
+    private final SelenideElement stateCityContainer = $("#stateCity-wrapper");
+    private final SelenideElement button = $("#submit");
+    private final SelenideElement modalWindow = $(".modal-dialog");
+    private final SelenideElement modalWindowText = $("#example-modal-sizes-title-lg");
+    private final SelenideElement formError = $("#formError");
 
 
     public PracticeFormPages openPage() {
@@ -46,17 +46,17 @@ public class PracticeFormPages {
         return this;
     }
 
-    public PracticeFormPages setFirstNameInput(String value) {
+    public PracticeFormPages setFirstName(String value) {
         firstNameInput.setValue(value);
         return this;
     }
 
-    public PracticeFormPages setLastNameInput(String value) {
+    public PracticeFormPages setLastName(String value) {
         lastNameInput.setValue(value);
         return this;
     }
 
-    public PracticeFormPages setUserEmailInput(String value) {
+    public PracticeFormPages setUserEmail(String value) {
         userEmailInput.setValue(value);
         return this;
     }
@@ -66,7 +66,7 @@ public class PracticeFormPages {
         return this;
     }
 
-    public PracticeFormPages setUserNumberInput(String value) {
+    public PracticeFormPages setUserNumber(String value) {
         userNumberInput.setValue(value);
         return this;
     }
@@ -131,9 +131,8 @@ public class PracticeFormPages {
         return this;
     }
 
-    public PracticeFormPages requirementFillFormTest() {
+    public void requirementFillFormTest() {
         formError.shouldHave(text(("Please fill required fields and enter a valid 10-digit mobile number.")));
-        return this;
     }
 
 }
